@@ -205,6 +205,11 @@ RUN cd / && git clone https://github.com/meetecho/janus-gateway.git && cd /janus
     --enable-all-handlers && \
     make && make install && make configs && ldconfig
 
+RUN mkdir /opt/janus/share/janus/certs && \
+    cd /opt/janus/share/janus/certs && \ 
+    openssl req -x509 -newkey rsa:4096 -keyout mycert.key -out mycert.pem -days 10000 -nodes \
+    -subj "/C=US/CN=inscopix.com"
+
 COPY nginx.conf /usr/local/nginx/nginx.conf
 WORKDIR /opt/janus/bin
 
